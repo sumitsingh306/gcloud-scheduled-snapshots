@@ -139,6 +139,11 @@ The log files are stored in *$HOME/.local/logs*
 
 ## Revisions
 
+### Version 0.4 Alpha
+- Fixed reStructuredText and Markdown compatibility.
+- Added 'executables' section to configuration file
+- Force full path in 'at' commands
+
 ### Version 0.3 Alpha
 - First public release. Use with caution.
 
