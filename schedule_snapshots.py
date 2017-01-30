@@ -43,9 +43,10 @@ CONFIG_PROJECT_KEY_ID = 'id'
 CONFIG_PROJECT_SECTION = 'project'
 CONFIG_AUTHENTICATION_KEY_CREDENTIALS = 'credentials'
 CONFIG_AUTHENTICATION_SECTION = 'authentication'
-
-EXECUTABLE_DELETE_SNAPSHOT = 'gcloud_delete_snapshot'
-EXECUTABLE_DO_SNAPSHOT = 'gcloud_do_snapshot'
+CONFIG_EXECUTABLE_SECTION = 'executables'
+CONFIG_EXECUTABLE_DELETE_SNAPSHOT = 'delete_snapshot'
+CONFIG_EXECUTABLE_DO_SNAPSHOT = 'do_snapshot'
+CONFIG_EXECUTABLE_PATH = 'path'
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -85,12 +86,17 @@ def main(argv=None):
         config = ConfigParser.ConfigParser()
         config.read(initfile)
 
-        path = os.path.dirname(os.path.abspath(__file__))
         credentials_file = config.get(CONFIG_AUTHENTICATION_SECTION, CONFIG_AUTHENTICATION_KEY_CREDENTIALS)
         project = config.get(CONFIG_PROJECT_SECTION, CONFIG_PROJECT_KEY_ID)
+        executable_delete_snapshot = config.get(CONFIG_EXECUTABLE_SECTION, CONFIG_EXECUTABLE_DELETE_SNAPSHOT)
+        executable_do_snapshot = config.get(CONFIG_EXECUTABLE_SECTION, CONFIG_EXECUTABLE_DO_SNAPSHOT)
+        path = config.get(CONFIG_EXECUTABLE_SECTION, CONFIG_EXECUTABLE_PATH)
 
         logger_.debug("CREDENTIALS FILE:%s" % credentials_file)
         logger_.debug("PROJECT:%s" % project)
+        logger_.debug("EXECUTABLES PATH:%s" % path)
+        logger_.debug("EXECUTABLE DO SNAPSHOT:%s" % executable_do_snapshot)
+        logger_.debug("EXECUTABLE DELETE SNAPSHOT:%s" % executable_delete_snapshot)
 
         scopes = GCE_SCOPES
         credentials = ServiceAccountCredentials.from_json_keyfile_name(credentials_file, scopes=scopes)
@@ -167,8 +173,8 @@ def main(argv=None):
                         snapshot_name = '%s%s-%s' % (name.split('schedule-%s' % backup_type)[0], backup_type,
                                                      datetime.strftime(datetime.today(), "%Y-%m-%d"))
                         # The command to schedule today
-                        create_command = """%s %s %s %s %s %s \"%s\" """ % (
-                        EXECUTABLE_DO_SNAPSHOT, credentials_file, project, zone, source_disk_name, snapshot_name, description)
+                        create_command = """%s/%s %s %s %s %s %s \"%s\" """ % (
+                        path, executable_do_snapshot, credentials_file, project, zone, source_disk_name, snapshot_name, description)
 
                         at_command = """`echo '%s' | at %s%s`""" % (create_command, snapshot_hour, snapshot_minutes)
                         subprocess.call(at_command, shell=True)
@@ -185,8 +191,8 @@ def main(argv=None):
                                 logger_.info("Schedule delete for today: %s" % old_snapshot_name)
                                 # The command to schedule DELETE today
                                 # The command to schedule today
-                                delete_command = """%s %s %s %s """ % (
-                                EXECUTABLE_DELETE_SNAPSHOT, credentials_file, project, snapshot_name)
+                                delete_command = """%s/%s %s %s %s """ % (
+                                path, executable_do_snapshot, credentials_file, project, snapshot_name)
                                 at_command = """`echo '%s' | at %s%s`""" % (
                                 delete_command, snapshot_hour, snapshot_minutes)
                                 subprocess.call(at_command, shell=True)

@@ -88,7 +88,7 @@ crontab -e
 
 Now paste the following line:
 ```
-0   0   *   *   *   gcloud_schedule_snapshots --config $HOME/.local/etc/gss.ini
+    0   0   *   *   *   $HOME/.local/bin/gcloud_schedule_snapshots --config $HOME/.local/etc/gss.ini
 ```
 
 Save the changes. The tool is installed and configured. Now it's time to program the snapshots needed.
