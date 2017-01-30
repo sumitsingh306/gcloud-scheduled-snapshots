@@ -1,7 +1,7 @@
 Gcloud-Scheduled-Snapshots - A simple Google Cloud Compute Engine daily and weekly rotative scheduled snapshots
 ===============================================================================================================
 
-Version 0.0.4 Alpha
+Version 0.0.5 Alpha
 
 Introduction
 ------------
@@ -93,6 +93,9 @@ Step 4. Edit the gss.ini configuration file
 This configuration file has to be modified to enter the following
 information:
 
+-  Rename *gss-sample.ini* file to *gss.ini* the first time you install.
+   If you are upgrading, check if there are new parameters needed, but
+   defaults should work.
 -  Under *autentication/credentials* enter the full path to the JSON
    credentials file previously downloaded.
 -  In *project/id* enter the ID of the project. The ID is the string
@@ -182,6 +185,12 @@ The log files are stored in *$HOME/.local/logs*
 
 Revisions
 ---------
+
+Version 0.5 Alpha
+~~~~~~~~~~~~~~~~~
+
+-  Moved default log file to root.
+-  Rename gss.ini to gss-smaple.ini to avoid the file to be overwritten when upgrading
 
 Version 0.4 Alpha
 ~~~~~~~~~~~~~~~~~
