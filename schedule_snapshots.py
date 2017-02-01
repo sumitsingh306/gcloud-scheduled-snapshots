@@ -192,7 +192,7 @@ def main(argv=None):
                                 # The command to schedule DELETE today
                                 # The command to schedule today
                                 delete_command = """%s/%s %s %s %s """ % (
-                                path, executable_do_snapshot, credentials_file, project, snapshot_name)
+                                path, executable_delete_snapshot, credentials_file, project, old_snapshot_name)
                                 at_command = """`echo '%s' | at %s%s`""" % (
                                 delete_command, snapshot_hour, snapshot_minutes)
                                 subprocess.call(at_command, shell=True)

@@ -1,7 +1,7 @@
 Gcloud-Scheduled-Snapshots - A simple Google Cloud Compute Engine daily and weekly rotative scheduled snapshots
 ===============================================================================================================
 
-Version 0.0.5 Alpha
+Version 0.0.6 Alpha
 
 Introduction
 ------------
@@ -185,6 +185,11 @@ The log files are stored in *$HOME/.local/logs*
 
 Revisions
 ---------
+
+Version 0.6 Alpha
+~~~~~~~~~~~~~~~~~
+
+-  Fixed broken snapshot deletion
 
 Version 0.5 Alpha
 ~~~~~~~~~~~~~~~~~
